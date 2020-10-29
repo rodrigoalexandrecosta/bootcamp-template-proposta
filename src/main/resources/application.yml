@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: Proposal API
+
+  datasource:
+    platform: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:proposal}
+    password: ${DB_PASS:proposal}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: proposalapi_service
+        format_sql: true
+
+  flyway:
+    enabled: true
+    schemas: proposalapi_service
+
+  jackson:
+    default-property-inclusion: non_null
+    property-naming-strategy: SNAKE_CASE
+    mapper:
+      propagate_transient_marker: true
+    serialization:
+      write_dates_as_timestamps: true
