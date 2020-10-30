@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -19,6 +20,7 @@ public class ProposalRequest {
     private String socialIdentity;
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank

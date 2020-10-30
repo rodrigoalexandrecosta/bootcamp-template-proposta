@@ -20,7 +20,7 @@ public class ProposalRestController {
 
     @PostMapping
     public ResponseEntity<ProposalResponse> create(@RequestBody @Valid ProposalRequest request) {
-        final var proposalResponse = this.proposalService.create(request.toProposal());
-        return ResponseEntity.created(URI.create("/api/v1/proposals/" + proposalResponse.getId())).body(proposalResponse);
+        final var proposal = this.proposalService.create(request.toProposal());
+        return ResponseEntity.created(URI.create("/api/v1/proposals/" + proposal.getId())).body(proposal);
     }
 }

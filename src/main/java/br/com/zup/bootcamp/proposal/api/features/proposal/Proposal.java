@@ -1,14 +1,16 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal;
 
+import br.com.zup.bootcamp.proposal.api.features.proposal.analysis.ProposalAnalysisRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -24,18 +26,33 @@ public class Proposal {
     @GeneratedValue(generator = "uuid")
     private UUID id;
 
+    @NotBlank
     private String socialIdentity;
 
+    @NotBlank
+    @Email
     private String email;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String address;
 
+    @NotNull
+    @PositiveOrZero
     private BigDecimal salary;
+
+    @Enumerated(EnumType.STRING)
+    private ProposalStatus status;
 
 
     @Deprecated
     public Proposal() {
     }
+
+    public ProposalAnalysisRequest toAnalysisRequest() {
+        return new ProposalAnalysisRequest(this.socialIdentity, this.name, this.id.toString());
+    }
+
 }

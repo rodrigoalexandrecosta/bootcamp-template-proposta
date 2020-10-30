@@ -1,3 +1,9 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 spring:
   application:
     name: Proposal API
@@ -25,8 +31,22 @@ spring:
 
   jackson:
     default-property-inclusion: non_null
-    property-naming-strategy: SNAKE_CASE
+#    property-naming-strategy: SNAKE_CASE
     mapper:
       propagate_transient_marker: true
     serialization:
       write_dates_as_timestamps: true
+    deserialization:
+      fail_on_unknown_properties: true
+
+opentracing:
+  jaeger:
+    enabled: { JAEGER_ENABLED:true }
+    service-name: ${spring.application.name}
+    probabilistic-sampler:
+      sampling-rate: ${JAEGER_SAMPLER:1}
+    http-sender:
+      url: ${JAEGER_ENDPOINT:http://localhost:14268/api/traces}
+
+analysis:
+  host: ${ANALYSIS_HOST:http://localhost:9999}

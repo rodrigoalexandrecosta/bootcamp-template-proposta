@@ -6,6 +6,7 @@ create table proposal
     name            varchar(255)     not null,
     address         varchar(1000)    not null,
     salary          numeric(9, 2)    not null,
+    status          varchar(255),
 
-    constraint uk_email_unique unique (email)
+    constraint uk_social_identity_unique unique (social_identity)
 );
