@@ -48,5 +48,7 @@ opentracing:
     http-sender:
       url: ${JAEGER_ENDPOINT:http://localhost:14268/api/traces}
 
-analysis:
-  host: ${ANALYSIS_HOST:http://localhost:9999}
+clients:
+  url:
+    analysis_service: ${ANALYSIS_SERVICE_URL:http://localhost:9999}
+    creditcard_service: ${CREDITCARD_SERVICE_URL:http://localhost:8888}

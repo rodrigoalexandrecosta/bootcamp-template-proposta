@@ -3,7 +3,6 @@ package br.com.zup.bootcamp.proposal.api.features.proposal.resource;
 import br.com.zup.bootcamp.proposal.api.features.proposal.Proposal;
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
 public class ProposalResponse {
 
     private UUID id;

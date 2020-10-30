@@ -27,7 +27,7 @@ public class ProposalService {
         return new ProposalResponse(this.proposalRepository.save(persistedProposal));
     }
 
-    Proposal evaluateProposal(final Proposal proposal) {
+    private Proposal evaluateProposal(final Proposal proposal) {
         var analysisResponse = ProposalAnalysisResponse.builder().build();
 
         try {
