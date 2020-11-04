@@ -1,4 +1,4 @@
-package br.com.zup.bootcamp.proposal.api.features.proposal.creditcard;
+package br.com.zup.bootcamp.proposal.api.features.creditcard;
 
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalService;
 import lombok.RequiredArgsConstructor;

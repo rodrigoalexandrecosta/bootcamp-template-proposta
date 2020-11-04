@@ -1,6 +1,6 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal;
 
-import br.com.zup.bootcamp.proposal.api.features.proposal.analysis.ProposalAnalysisRequest;
+import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

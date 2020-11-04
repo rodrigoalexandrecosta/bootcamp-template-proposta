@@ -1,4 +1,4 @@
-package br.com.zup.bootcamp.proposal.api.features.proposal.analysis;
+package br.com.zup.bootcamp.proposal.api.features.analysis;
 
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalStatus;
 

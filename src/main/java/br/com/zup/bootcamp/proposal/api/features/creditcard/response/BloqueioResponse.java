@@ -1,4 +1,4 @@
-package br.com.zup.bootcamp.proposal.api.features.proposal.creditcard;
+package br.com.zup.bootcamp.proposal.api.features.creditcard.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,10 +12,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CarteiraResponse {
+public class BloqueioResponse {
 
     private UUID id;
-    private String email;
-    private LocalDateTime associadaEm;
-    private String emissor;
+    private LocalDateTime bloqueadoEm;
+    private String sistemaResponsavel;
+    private boolean ativo;
 }

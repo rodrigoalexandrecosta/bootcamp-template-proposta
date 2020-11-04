@@ -1,10 +1,10 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal;
 
-import br.com.zup.bootcamp.proposal.api.features.proposal.analysis.ProposalAnalysisClient;
-import br.com.zup.bootcamp.proposal.api.features.proposal.analysis.ProposalAnalysisResponse;
-import br.com.zup.bootcamp.proposal.api.features.proposal.analysis.ProposalAnalysisStatus;
-import br.com.zup.bootcamp.proposal.api.features.proposal.creditcard.CreditCardClient;
-import br.com.zup.bootcamp.proposal.api.features.proposal.creditcard.CreditCardResponse;
+import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisClient;
+import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisResponse;
+import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisStatus;
+import br.com.zup.bootcamp.proposal.api.features.creditcard.CreditCardClient;
+import br.com.zup.bootcamp.proposal.api.features.creditcard.response.CreditCardResponse;
 import br.com.zup.bootcamp.proposal.api.features.proposal.resource.ProposalResponse;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -62,13 +62,10 @@ public class ProposalService {
     public void updateProposalWithCreditCardNumber() {
         List<Proposal> proposals = this.findAllEligibleWithoutCreditCardNumber();
 
-        // TODO try optional;
         proposals.forEach(proposal -> {
             try {
-                CreditCardResponse response = this.creditCardClient.getCreditCardByProposalId(proposal.getId().toString());
-                if (response != null) {
-                    proposal.setCreditCardNumber(UUID.fromString(response.getId()));
-                }
+                Optional.ofNullable(this.creditCardClient.getCreditCardByProposalId(proposal.getId().toString()))
+                        .ifPresent(response -> proposal.setCreditCardNumber(UUID.fromString(response.getId())));
             } catch (FeignException e) {
                 log.error("API communication error: {}", e.getMessage());
             }

@@ -1,7 +1,6 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal.resource;
 
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalService;
-import br.com.zup.bootcamp.proposal.api.features.proposal.creditcard.CreditCardClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +26,6 @@ public class ProposalRestController {
         return this.proposalService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-
     }
+
 }

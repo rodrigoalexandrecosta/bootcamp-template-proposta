@@ -1,4 +1,4 @@
-package br.com.zup.bootcamp.proposal.api.features.proposal.analysis;
+package br.com.zup.bootcamp.proposal.api.features.analysis;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
