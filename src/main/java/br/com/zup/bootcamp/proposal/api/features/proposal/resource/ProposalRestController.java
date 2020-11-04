@@ -2,7 +2,6 @@ package br.com.zup.bootcamp.proposal.api.features.proposal.resource;
 
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalService;
 import br.com.zup.bootcamp.proposal.api.features.proposal.creditcard.CreditCardClient;
-import br.com.zup.bootcamp.proposal.api.features.proposal.creditcard.CreditCardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.net.URI;
 public class ProposalRestController {
 
     private final ProposalService proposalService;
-    private final CreditCardClient creditCardClient;
 
     @PostMapping
     public ResponseEntity<ProposalResponse> create(@RequestBody @Valid ProposalRequest request) {
@@ -25,7 +23,10 @@ public class ProposalRestController {
     }
 
     @GetMapping
-    public ResponseEntity<CreditCardResponse> get(@RequestParam("idProposta") String idProposta) {
-        return ResponseEntity.ok(this.creditCardClient.getCreditCardByProposalId(idProposta));
+    public ResponseEntity<ProposalResponse> find(@RequestParam("id") String id) {
+        return this.proposalService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 }

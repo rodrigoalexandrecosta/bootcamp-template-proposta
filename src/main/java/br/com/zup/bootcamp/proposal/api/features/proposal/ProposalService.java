@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,24 +35,9 @@ public class ProposalService {
         return new ProposalResponse(proposal);
     }
 
-    @Transactional
-    public void updateProposalWithCreditCardNumber() {
-        List<Proposal> proposals = this.findAllEligibleWithoutCreditCardNumber();
-
-        proposals.forEach(proposal -> {
-            try {
-                CreditCardResponse response = this.creditCardClient.getCreditCardByProposalId(proposal.getId().toString());
-                if (response != null) {
-                    proposal.setCreditCardNumber(UUID.fromString(response.getId()));
-                }
-            } catch (FeignException e) {
-                log.error("API communication error: {}", e.getMessage());
-            }
-        });
-    }
-
-    private List<Proposal> findAllEligibleWithoutCreditCardNumber() {
-        return this.proposalRepository.findAllByStatusAndCreditCardNumberIsNull(ProposalStatus.ELIGIBLE);
+    public Optional<ProposalResponse> findById(final String id) {
+        return this.proposalRepository.findById(UUID.fromString(id))
+                .map(ProposalResponse::new);
     }
 
     private void evaluateProposal(final Proposal proposal) {
@@ -66,5 +52,26 @@ public class ProposalService {
         }
 
         proposal.setStatus(analysisResponse.getResultadoSolicitacao().toProposalStatus());
+    }
+
+    private List<Proposal> findAllEligibleWithoutCreditCardNumber() {
+        return this.proposalRepository.findAllByStatusAndCreditCardNumberIsNull(ProposalStatus.ELIGIBLE);
+    }
+
+    @Transactional
+    public void updateProposalWithCreditCardNumber() {
+        List<Proposal> proposals = this.findAllEligibleWithoutCreditCardNumber();
+
+        // TODO try optional;
+        proposals.forEach(proposal -> {
+            try {
+                CreditCardResponse response = this.creditCardClient.getCreditCardByProposalId(proposal.getId().toString());
+                if (response != null) {
+                    proposal.setCreditCardNumber(UUID.fromString(response.getId()));
+                }
+            } catch (FeignException e) {
+                log.error("API communication error: {}", e.getMessage());
+            }
+        });
     }
 }
