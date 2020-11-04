@@ -1,14 +1,19 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal.creditcard;
 
+import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CreditCardTask {
 
-//    @Scheduled(fixedDelay = 1000)
-    private void execute() {
-        System.out.println("Executing!!!!!!!!!");
+    private final ProposalService proposalService;
+
+    @Scheduled(fixedDelay = 10000)
+    public void updateProposalWithCreditCardNumber() {
+        this.proposalService.updateProposalWithCreditCardNumber();
     }
 }
 

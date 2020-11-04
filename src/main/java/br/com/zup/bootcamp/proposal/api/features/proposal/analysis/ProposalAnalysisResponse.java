@@ -14,7 +14,6 @@ public class ProposalAnalysisResponse {
     private String documento;
     private String nome;
     private ProposalAnalysisStatus resultadoSolicitacao;
-
     private String idProposta;
 
     @Deprecated

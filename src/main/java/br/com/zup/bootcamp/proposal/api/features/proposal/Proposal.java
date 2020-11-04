@@ -46,6 +46,8 @@ public class Proposal {
     @Enumerated(EnumType.STRING)
     private ProposalStatus status;
 
+    private UUID creditCardNumber;
+
 
     @Deprecated
     public Proposal() {
