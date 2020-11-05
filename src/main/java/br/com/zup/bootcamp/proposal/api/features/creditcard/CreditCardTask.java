@@ -15,7 +15,7 @@ public class CreditCardTask {
     private final CreditCardService creditCardService;
     private final ProposalService proposalService;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelayString = "${clients.analysis_service.time-frame-delay}")
     public void updateProposalWithCreditCard() {
         List<Proposal> eligibleProposalsWithoutCard = this.proposalService.findAllEligibleWithoutCreditCard();
         this.creditCardService.createBatch(eligibleProposalsWithoutCard);

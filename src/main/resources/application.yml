@@ -49,6 +49,8 @@ opentracing:
       url: ${JAEGER_ENDPOINT:http://localhost:14268/api/traces}
 
 clients:
-  url:
-    analysis_service: ${ANALYSIS_SERVICE_URL:http://localhost:9999}
-    creditcard_service: ${CREDITCARD_SERVICE_URL:http://localhost:8888}
+  analysis_service:
+    url: ${ANALYSIS_SERVICE_URL:http://localhost:9999}
+    time-frame-delay: 10000
+  creditcard_service:
+    url: ${CREDITCARD_SERVICE_URL:http://localhost:8888}
