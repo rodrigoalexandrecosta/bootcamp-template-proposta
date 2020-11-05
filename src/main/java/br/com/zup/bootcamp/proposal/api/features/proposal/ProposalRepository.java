@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface ProposalRepository extends CrudRepository<Proposal, UUID> {
     Optional<Proposal> findBySocialIdentity(String socialIdentity);
 
-    List<Proposal> findAllByStatusAndCreditCardNumberIsNull(ProposalStatus status);
+    List<Proposal> findAllByStatusAndCreditCardIsNull(ProposalStatus status);
 }

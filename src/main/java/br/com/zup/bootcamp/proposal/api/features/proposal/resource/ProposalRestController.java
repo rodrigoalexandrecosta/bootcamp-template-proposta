@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/proposals")
@@ -21,9 +22,9 @@ public class ProposalRestController {
         return ResponseEntity.created(URI.create("/api/v1/proposals/" + proposalResponse.getId())).body(proposalResponse);
     }
 
-    @GetMapping
-    public ResponseEntity<ProposalResponse> find(@RequestParam("id") String id) {
-        return this.proposalService.findById(id)
+    @GetMapping("/{proposalId}")
+    public ResponseEntity<ProposalResponse> find(@PathVariable UUID proposalId) {
+        return this.proposalService.findById(proposalId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

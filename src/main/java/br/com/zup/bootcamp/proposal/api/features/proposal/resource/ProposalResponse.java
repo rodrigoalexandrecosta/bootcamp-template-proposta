@@ -1,5 +1,6 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal.resource;
 
+import br.com.zup.bootcamp.proposal.api.features.creditcard.CreditCard;
 import br.com.zup.bootcamp.proposal.api.features.proposal.Proposal;
 import br.com.zup.bootcamp.proposal.api.features.proposal.ProposalStatus;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class ProposalResponse {
     private String socialIdentity;
     private String name;
     private ProposalStatus status;
+    private CreditCard creditCard;
 
 
     @Deprecated
@@ -28,5 +30,6 @@ public class ProposalResponse {
         this.socialIdentity = proposal.getSocialIdentity();
         this.name = proposal.getName();
         this.status = proposal.getStatus();
+        this.creditCard = proposal.getCreditCard();
     }
 }

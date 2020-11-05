@@ -3,8 +3,6 @@ package br.com.zup.bootcamp.proposal.api.features.proposal;
 import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisClient;
 import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisResponse;
 import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisStatus;
-import br.com.zup.bootcamp.proposal.api.features.creditcard.CreditCardClient;
-import br.com.zup.bootcamp.proposal.api.features.creditcard.response.CreditCardResponse;
 import br.com.zup.bootcamp.proposal.api.features.proposal.resource.ProposalResponse;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,6 @@ public class ProposalService {
 
     private final ProposalRepository proposalRepository;
     private final ProposalAnalysisClient proposalAnalysisClient;
-    private final CreditCardClient creditCardClient;
 
     @Transactional
     public ProposalResponse create(Proposal proposal) {
@@ -31,16 +28,20 @@ public class ProposalService {
             throw new IllegalArgumentException("message.proposal.social-identity.unique");
         }
         this.proposalRepository.save(proposal);
-        this.evaluateProposal(proposal);
-        return new ProposalResponse(proposal);
+        proposal = this.evaluateProposal(proposal);
+        return new ProposalResponse(this.proposalRepository.save(proposal));
     }
 
-    public Optional<ProposalResponse> findById(final String id) {
-        return this.proposalRepository.findById(UUID.fromString(id))
+    public Optional<ProposalResponse> findById(final UUID id) {
+        return this.proposalRepository.findById(id)
                 .map(ProposalResponse::new);
     }
 
-    private void evaluateProposal(final Proposal proposal) {
+    public List<Proposal> findAllEligibleWithoutCreditCard() {
+        return this.proposalRepository.findAllByStatusAndCreditCardIsNull(ProposalStatus.ELIGIBLE);
+    }
+
+    private Proposal evaluateProposal(final Proposal proposal) {
         var analysisResponse = ProposalAnalysisResponse.builder()
                 .resultadoSolicitacao(ProposalAnalysisStatus.COM_RESTRICAO)
                 .build();
@@ -52,23 +53,7 @@ public class ProposalService {
         }
 
         proposal.setStatus(analysisResponse.getResultadoSolicitacao().toProposalStatus());
+        return proposal;
     }
 
-    private List<Proposal> findAllEligibleWithoutCreditCardNumber() {
-        return this.proposalRepository.findAllByStatusAndCreditCardNumberIsNull(ProposalStatus.ELIGIBLE);
-    }
-
-    @Transactional
-    public void updateProposalWithCreditCardNumber() {
-        List<Proposal> proposals = this.findAllEligibleWithoutCreditCardNumber();
-
-        proposals.forEach(proposal -> {
-            try {
-                Optional.ofNullable(this.creditCardClient.getCreditCardByProposalId(proposal.getId().toString()))
-                        .ifPresent(response -> proposal.setCreditCardNumber(UUID.fromString(response.getId())));
-            } catch (FeignException e) {
-                log.error("API communication error: {}", e.getMessage());
-            }
-        });
-    }
 }

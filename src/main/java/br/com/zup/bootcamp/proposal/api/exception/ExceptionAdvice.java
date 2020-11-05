@@ -33,11 +33,6 @@ public class ExceptionAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-//    @ExceptionHandler(value = {FeignException.UnprocessableEntity.class})
-//    ResponseEntity<Object> handleUnprocessableEntityException(FeignException.UnprocessableEntity e) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

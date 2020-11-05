@@ -1,6 +1,7 @@
 package br.com.zup.bootcamp.proposal.api.features.proposal;
 
 import br.com.zup.bootcamp.proposal.api.features.analysis.ProposalAnalysisRequest;
+import br.com.zup.bootcamp.proposal.api.features.creditcard.CreditCard;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +47,8 @@ public class Proposal {
     @Enumerated(EnumType.STRING)
     private ProposalStatus status;
 
-    private UUID creditCardNumber;
+    @OneToOne(mappedBy = "proposal")
+    private CreditCard creditCard;
 
 
     @Deprecated
